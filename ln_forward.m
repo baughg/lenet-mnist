@@ -16,10 +16,10 @@ conv1_b = read_array('model/conv1.1.bin',20,1,1,1);
 conv2_w = read_array('model/conv2.0.bin',5,5,20,50);
 conv2_b = read_array('model/conv2.1.bin',50,1,1,1);
 
-ip1_w = read_array('model/ip1.0.bin',800,1,1,500);
+ip1_w = read_array('model/ip1.0.bin',800,1,1,500)';
 ip1_b = read_array('model/ip1.1.bin',500,1,1,1);
 
-ip2_w = read_array('model/ip2.0.bin',500,1,1,10);
+ip2_w = read_array('model/ip2.0.bin',500,1,1,10)';
 ip2_b = read_array('model/ip2.1.bin',10,1,1,1);
 
 conv1_w = reformat_weight(conv1_w);
@@ -34,12 +34,12 @@ conv2_pool2 = max_pool(pool1_conv2); % pool2
 conv2_pool2_v = vectorise_tensor( conv2_pool2 );
 
 % ip1 (inner product)
-ip1_w_relu1_in = sum(repmat(conv2_pool2_v,500,1) .* ip1_w',2)';
+ip1_w_relu1_in = sum(repmat(conv2_pool2_v,500,1) .* ip1_w,2)';
 ip1_w_relu1_in = ip1_w_relu1_in + ip1_b';
 ip1_w_relu1 = ip1_w_relu1_in;
 ip1_w_relu1(ip1_w_relu1_in < 0) = 0; % relu1
 % ipl2
-relu1_ip2_w = sum(repmat(ip1_w_relu1,10,1) .* ip2_w',2)';
+relu1_ip2_w = sum(repmat(ip1_w_relu1,10,1) .* ip2_w,2)';
 relu1_ip2_w = relu1_ip2_w + ip2_b';
 relu1_ip2_w = relu1_ip2_w ./ max(relu1_ip2_w);
 % prob
